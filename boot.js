@@ -1,104 +1,5 @@
-/*
-
-█   █   █       █    █▅   ▅█    █      █     ██████     █      █    █     █
-█ █     █       █    █  █ █  █    █      █       █        █      █    █     █
-██      █       █    █   █   █    █      █       █        ████████    █     █
-█ █     █       █    █       █    █      █       █        █      █    █     █
-█   █    ▀▅▃▅▀    █        █    ▀▅▃▅▀       █        █      █    ▀▅▃▅▀  
-╦   ╦      ╔══╗      ╦        ╦     ╔══╗         ╦        ╦      ╦      ╔══╗
-
-╔═══❤️═══🧡═══💛═══🤍═══💚═══💙═══💜═══╗
-║
-║
-║
-╠🆁🅴🅳╬🅳🆁🅰🅶🅾🅽╣ 𝘾𝙧𝙚𝙖𝙩𝙚𝙙 𝘽𝙮 [`𝗞.𝗣𝗿𝗮𝗯𝗵𝗮𝘀𝗵𝗮´]
-║
-║
-║
-╠═𝕆𝔹𝔽𝕌𝕊ℂ𝔸𝕋𝔼𝔻═𝔹𝕐═╣ 😎𝙆.𝙋𝙧𝙖𝙗𝙝𝙖𝙨𝙝𝙖❯❯
-║
-╠═══════(github.com/prabhasha2006)═══════╣
-║
-║    ▒ ▒          ▒ ▒ ▒       ▒ ▒ ▒ ▒ ▒  
-║    ▒    ▒      ▒     ▒          ▒      
-║    ▒    ▒     ▒       ▒         ▒       
-║    ▒ ▒        ▒       ▒         ▒
-║    ▒    ▒     ▒       ▒         ▒
-║    ▒    ▒      ▒     ▒          ▒
-║    ▒ ▒          ▒ ▒ ▒           ▒
-║   
-║
-╚═══❤️═══🧡═══💛═══🤍═══💚═══💙═══💜═══╝
-
-*/
-
-
-
-
-                        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 require('./settings')
-const { default: KUMUTHUConnect, useSingleFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto } = require("@adiwajshing/baileys")
+const { default: DARKLYONConnect, useSingleFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto } = require("@adiwajshing/baileys")
 const { state, saveState } = useSingleFileAuthState(`./${sessionName}.json`)
 const pino = require('pino')
 const { Boom } = require('@hapi/boom')
@@ -149,64 +50,64 @@ if (global.db) setInterval(async () => {
     if (global.db.data) await global.db.write()
   }, 30 * 1000)
 
-async function startKUMUTHU() {
-    const KUMUTHU = KUMUTHUConnect({
+async function startLYON() {
+    const LYON = LYONConnect({
         logger: pino({ level: 'silent' }),
         printQRInTerminal: true,
-        browser: ['Subscribe Xeon','Safari','1.0.0'],
+        browser: ['Subscribe Bisa YT','Safari','1.0.0'],
         auth: state
     })
 
-    store.bind(KUMUTHU.ev)
+    store.bind(LYON.ev)
     
     // anticall auto block
     if (global.callblock === "true"){
-    KUMUTHU.ws.on('CB:call', async (json) => {
+    DARKLYON.ws.on('CB:call', async (json) => {
     const callerId = json.content[0].attrs['call-creator']
     if (json.content[0].tag == 'offer') {
     let xeonfek = await KUMUTHU.sendContact(callerId, global.owner)
-    KUMUTHU.sendMessage(callerId, { text: `⚠️XOFIY-X Automatic Block System!\n⚠️Don't Call Bot!\n⚠️Please Ask Or Contact The Owner To Unblock You!`}, { quoted : xeonfek })
+    DARKLYON.sendMessage(callerId, { text: `⚠️DARK-LYON Automatic Block System!\n⚠️Don't Call Bot!\n⚠️Please Ask Or Contact The Owner To Unblock You!`}, { quoted : xeonfek })
     await sleep(8000)
-    await KUMUTHU.updateBlockStatus(callerId, "block")
+    await LYON.updateBlockStatus(callerId, "block")
     }
     })}else{}
 
-    KUMUTHU.ev.on('messages.upsert', async chatUpdate => {
+    LYON.ev.on('messages.upsert', async chatUpdate => {
         //console.log(JSON.stringify(chatUpdate, undefined, 2))
         try {
         mek = chatUpdate.messages[0]
         if (!mek.message) return
         mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
         if (mek.key && mek.key.remoteJid === 'status@broadcast') return
-        if (!KUMUTHU.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
+        if (!LYON.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
         if (mek.key.id.startsWith('BAE5') && mek.key.id.length === 16) return
-        m = smsg(KUMUTHU, mek, store)
-        require("./Red-Dragon")(KUMUTHU, m, chatUpdate, store)
+        m = smsg(LYON, mek, store)
+        require("./Red-Dragon")(LYON, m, chatUpdate, store)
         } catch (err) {
             console.log(err)
         }
     })
     
     // Group Update
-    KUMUTHU.ev.on('groups.update', async pea => {
+    DARKLYON.ev.on('groups.update', async pea => {
        //console.log(pea)
     // Get Profile Picture Group
        try {
-       ppgc = await KUMUTHU.profilePictureUrl(pea[0].id, 'image')
+       ppgc = await LYON.profilePictureUrl(pea[0].id, 'image')
        } catch {
        ppgc = 'https://shortlink.KUMUTHUarridho.my.id/rg1oT'
        }
        let lolXeon = { url : ppgc }
        if (pea[0].announce == true) {
-        KMUTHU.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nThe Group Has Been Closed By Admin, Now Only Admin Can Send Messages !`, `Group Settings Change Message`, wm_fatih, [])
+        DARKLYON.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nThe Group Has Been Closed By Admin, Now Only Admin Can Send Messages !`, `Group Settings Change Message`, wm_fatih, [])
         } else if(pea[0].announce == false) {
-        KMUTHU.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nThe Group Has Been Opened By Admin, Now Participants Can Send Messages !`, `Group Settings Change Message`, wm_fatih, [])
+        DARKLYON.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nThe Group Has Been Opened By Admin, Now Participants Can Send Messages !`, `Group Settings Change Message`, wm_fatih, [])
         } else if (pea[0].restrict == true) {
-        KMUTHU.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nGroup Info Has Been Restricted, Now Only Admin Can Edit Group Info !`, `Group Settings Change Message`, wm_fatih, [])
+        DARKLYON.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nGroup Info Has Been Restricted, Now Only Admin Can Edit Group Info !`, `Group Settings Change Message`, wm_fatih, [])
         } else if (pea[0].restrict == false) {
-        KMUTHU.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nGroup Info Has Been Opened, Now Participants Can Edit Group Info !`, `Group Settings Change Message`, wm_fatih, [])
+        DARKLYON.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nGroup Info Has Been Opened, Now Participants Can Edit Group Info !`, `Group Settings Change Message`, wm_fatih, [])
         } else {
-        KMUTHU.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nGroup Subject Has Been Changed To *${pea[0].subject}*`, `Group Settings Change Message`, wm_fatih, [])
+        DARKLYON.send5ButImg(pea[0].id, `🪀 Group Settings Changed 🪀\n\nGroup Subject Has Been Changed To *${pea[0].subject}*`, `Group Settings Change Message`, wm_fatih, [])
       }
     })
     
@@ -218,15 +119,15 @@ return list[Math.floor(list.length * Math.random())]
 let documents = [doc1,doc2,doc3,doc4,doc5,doc6]
 let docs = pickRandom(documents)
 
-    KUMUTHU.ev.on('group-participants.update', async (anu) => {
+    DARKLYON.ev.on('group-participants.update', async (anu) => {
         console.log(anu)
         try {
-            let metadata = await KUMUTHU.groupMetadata(anu.id)
+            let metadata = await LYON.groupMetadata(anu.id)
             let participants = anu.participants
             for (let num of participants) {
                 // Get Profile Picture User
                 try {
-                    ppuser = await KUMUTHU.profilePictureUrl(num, 'image')
+                    ppuser = await LYON.profilePictureUrl(num, 'image')
                 } catch {
                     ppuser = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
                 }
@@ -239,7 +140,7 @@ let docs = pickRandom(documents)
                 }
 
 //welcome\\
-        let nama = await KUMUTHU.getName(num)
+        let nama = await DARKLYON.getName(num)
 memb = metadata.participants.length
 XeonWlcm = await getBuffer(`https://hardianto.xyz/api/welcome3?profile=${encodeURIComponent(ppuser)}&name=${encodeURIComponent(nama)}&bg=https://telegra.ph/file/d460e086f9f9bf6b04e17.jpg&namegb=${encodeURIComponent(metadata.subject)}&member=${encodeURIComponent(memb)}`)
 XeonLft = await getBuffer(`https://hardianto.xyz/api/goodbye3?profile=${encodeURIComponent(ppuser)}&name=${encodeURIComponent(nama)}&bg=https://telegra.ph/file/d460e086f9f9bf6b04e17.jpg&namegb=${encodeURIComponent(metadata.subject)}&member=${encodeURIComponent(memb)}`)
@@ -270,7 +171,7 @@ footer: `${footer}`,
 buttons,
 headerType: 4
 }
-KUMUTHU.sendMessage(anu.id, buttonMessage)
+DARKLYON.sendMessage(anu.id, buttonMessage)
                 } else if (anu.action == 'remove') {
                 	const xeonbuffer = await getBuffer(ppuser)
                     const xeontime = moment.tz('Asia/Kolkata').format('HH:mm:ss')
@@ -296,7 +197,7 @@ Time =  ${xeontime} `
     buttons,
     headerType: 4
     }
-KUMUTHU.sendMessage(anu.id, buttonMessage)
+DARKLYON.sendMessage(anu.id, buttonMessage)
                 }
             }
         } catch (err) {
@@ -305,7 +206,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
     })
 	
     //Setting\\
-    KUMUTHU.decodeJid = (jid) => {
+    DARKLYON.decodeJid = (jid) => {
         if (!jid) return jid
         if (/:\d+@/gi.test(jid)) {
             let decode = jidDecode(jid) || {}
@@ -313,14 +214,14 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
         } else return jid
     }
     
-    KUMUTHU.ev.on('contacts.update', update => {
+    DARKLYON.ev.on('contacts.update', update => {
         for (let contact of update) {
             let id = KUMUTHU.decodeJid(contact.id)
             if (store && store.contacts) store.contacts[id] = { id, name: contact.notify }
         }
     })
 
-    KUMUTHU.getName = (jid, withoutContact  = false) => {
+    DARKLYON.getName = (jid, withoutContact  = false) => {
         id = KUMUTHU.decodeJid(jid)
         withoutContact = KUMUTHU.withoutContact || withoutContact 
         let v
@@ -338,7 +239,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
             return (withoutContact ? '' : v.name) || v.subject || v.verifiedName || PhoneNumber('+' + jid.replace('@s.whatsapp.net', '')).getNumber('international')
     }
     
-    KUMUTHU.sendContact = async (jid, kon, quoted = '', opts = {}) => {
+    DARKLYON.sendContact = async (jid, kon, quoted = '', opts = {}) => {
 	let list = []
 	for (let i of kon) {
 	    list.push({
@@ -347,11 +248,11 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
 	    	////////////////////////////////////////////////////////////vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${ownername}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Click To Chat\nitem2.EMAIL;type=INTERNET:${botscript}\nitem2.X-ABLabel:Script\nitem3.URL:${btnurl}\nitem3.X-ABLabel:Script\nitem4.ADR:;;${location};;;;\nitem4.X-ABLabel:Region\nEND:VCARD`
 	    })
 	}
-	KUMUTHU.sendMessage(jid, { contacts: { displayName: `${list.length} Contact`, contacts: list }, ...opts }, { quoted })
+	DARKLYON.sendMessage(jid, { contacts: { displayName: `${list.length} Contact`, contacts: list }, ...opts }, { quoted })
     }
     
-    KUMUTHU.setStatus = (status) => {
-        KUMUTHU.query({
+    DARKLYON.setStatus = (status) => {
+        DARKLYON.query({
             tag: 'iq',
             attrs: {
                 to: '@s.whatsapp.net',
@@ -367,27 +268,27 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
         return status
     }
 	
-    KUMUTHU.public = true
+    DARKLYON.public = true
 
-    KUMUTHU.serializeM = (m) => smsg(KUMUTHU, m, store)
+    DARKLYON.serializeM = (m) => smsg(DARKLYON, m, store)
 
-    KUMUTHU.ev.on('connection.update', async (update) => {
+    DARKLYON.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect } = update	    
         if (connection === 'close') {
         let reason = new Boom(lastDisconnect?.error)?.output.statusCode
-            if (reason === DisconnectReason.badSession) { console.log(`Bad Session File, Please Delete Session and Scan Again`); KUMUTHU.logout(); }
-            else if (reason === DisconnectReason.connectionClosed) { console.log("🦄Connection closed, reconnecting...."); startKUMUTHU(); }
-            else if (reason === DisconnectReason.connectionLost) { console.log("🦄Connection Lost from Server, reconnecting..."); startKUMUTHU(); }
+            if (reason === DisconnectReason.badSession) { console.log(`Bad Session File, Please Delete Session and Scan Again`); DARKLYON.logout(); }
+            else if (reason === DisconnectReason.connectionClosed) { console.log("🦄Connection closed, reconnecting...."); startDARKLYON(); }
+            else if (reason === DisconnectReason.connectionLost) { console.log("🦄Connection Lost from Server, reconnecting..."); startDARKLYON(); }
             else if (reason === DisconnectReason.connectionReplaced) { console.log("🦄Connection Replaced, Another New Session Opened, Please Close Current Session First"); KUMUTHU.logout(); }
-            else if (reason === DisconnectReason.loggedOut) { console.log(`🦄Device Logged Out, Please Scan Again And Run.`); KUMUTHU.logout(); }
-            else if (reason === DisconnectReason.restartRequired) { console.log("🦄Restart Required, Restarting..."); startKUMUTHU(); }
-            else if (reason === DisconnectReason.timedOut) { console.log("🦄Connection TimedOut, Reconnecting..."); startKUMUTHU(); }
-            else KUMUTHU.end(`🦄Unknown DisconnectReason: ${reason}|${connection}`)
+            else if (reason === DisconnectReason.loggedOut) { console.log(`🦄Device Logged Out, Please Scan Again And Run.`); DARKLYON.logout(); }
+            else if (reason === DisconnectReason.restartRequired) { console.log("🦄Restart Required, Restarting..."); startDARKLYON(); }
+            else if (reason === DisconnectReason.timedOut) { console.log("🦄Connection TimedOut, Reconnecting..."); startDARKLYON(); }
+            else DARKLYON.end(`🦄Unknown DisconnectReason: ${reason}|${connection}`)
         }
         console.log('Connected...', update)
     })
 
-    KUMUTHU.ev.on('creds.update', saveState)
+    DARKLYON.ev.on('creds.update', saveState)
 
     // Add Other
     /** Send Button 5 Image
@@ -400,8 +301,8 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options
      * @returns
      */
-    KUMUTHU.send5ButImg = async (jid , text = '' , footer = '', img, but = [], options = {}) =>{
-        let message = await prepareWAMessageMedia({ image: img }, { upload: KUMUTHU.waUploadToServer })
+    DARKLYON.send5ButImg = async (jid , text = '' , footer = '', img, but = [], options = {}) =>{
+        let message = await prepareWAMessageMedia({ image: img }, { upload: DARKLYON.waUploadToServer })
         var template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
         templateMessage: {
         hydratedTemplate: {
@@ -412,7 +313,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
             }
             }
             }), options)
-            KUMUTHU.relayMessage(jid, template.message, { messageId: template.key.id })
+            DARKLYON.relayMessage(jid, template.message, { messageId: template.key.id })
     }
 
     /**
@@ -424,7 +325,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} quoted 
      * @param {*} options 
      */
-    KUMUTHU.sendButtonText = (jid, buttons = [], text, footer, quoted = '', options = {}) => {
+    DARKLYON.sendButtonText = (jid, buttons = [], text, footer, quoted = '', options = {}) => {
         let buttonMessage = {
             text,
             footer,
@@ -432,7 +333,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
             headerType: 2,
             ...options
         }
-        KUMUTHU.sendMessage(jid, buttonMessage, { quoted, ...options })
+        DARKLYON.sendMessage(jid, buttonMessage, { quoted, ...options })
     }
     
     /**
@@ -443,7 +344,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.sendText = (jid, text, quoted = '', options) => KUMUTHU.sendMessage(jid, { text: text, ...options }, { quoted })
+    DARKLYON.sendText = (jid, text, quoted = '', options) => DARKLYON.sendMessage(jid, { text: text, ...options }, { quoted })
 
     /**
      * 
@@ -454,9 +355,9 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.sendImage = async (jid, path, caption = '', quoted = '', options) => {
+    DARKLYON.sendImage = async (jid, path, caption = '', quoted = '', options) => {
 	let buffer = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
-        return await KUMUTHU.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted })
+        return await DARKLYON.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted })
     }
 
     /**
@@ -468,9 +369,9 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.sendVideo = async (jid, path, caption = '', quoted = '', gif = false, options) => {
+    DARKLYON.sendVideo = async (jid, path, caption = '', quoted = '', gif = false, options) => {
         let buffer = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
-        return await KUMUTHU.sendMessage(jid, { video: buffer, caption: caption, gifPlayback: gif, ...options }, { quoted })
+        return await DARKLYON.sendMessage(jid, { video: buffer, caption: caption, gifPlayback: gif, ...options }, { quoted })
     }
 
     /**
@@ -482,9 +383,9 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.sendAudio = async (jid, path, quoted = '', ptt = false, options) => {
+    DARKLYON.sendAudio = async (jid, path, quoted = '', ptt = false, options) => {
         let buffer = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
-        return await KUMUTHU.sendMessage(jid, { audio: buffer, ptt: ptt, ...options }, { quoted })
+        return await DARKLYON.sendMessage(jid, { audio: buffer, ptt: ptt, ...options }, { quoted })
     }
 
     /**
@@ -495,7 +396,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.sendTextWithMentions = async (jid, text, quoted, options = {}) => KUMUTHU.sendMessage(jid, { text: text, contextInfo: { mentionedJid: [...text.matchAll(/@(\d{0,16})/g)].map(v => v[1] + '@s.whatsapp.net') }, ...options }, { quoted })
+    DARKLYON.sendTextWithMentions = async (jid, text, quoted, options = {}) => DARKLYON.sendMessage(jid, { text: text, contextInfo: { mentionedJid: [...text.matchAll(/@(\d{0,16})/g)].map(v => v[1] + '@s.whatsapp.net') }, ...options }, { quoted })
 
     /**
      * 
@@ -505,7 +406,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+    DARKLYON.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
         let buffer
         if (options && (options.packname || options.author)) {
@@ -526,7 +427,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
+    DARKLYON.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
         let buffer
         if (options && (options.packname || options.author)) {
@@ -546,7 +447,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} attachExtension 
      * @returns 
      */
-    KUMUTHU.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+    DARKLYON.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
         let quoted = message.msg ? message.msg : message
         let mime = (message.msg || message).mimetype || ''
         let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0]
@@ -562,7 +463,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
         return trueFileName
     }
 
-    KUMUTHU.downloadMediaMessage = async (message) => {
+    DARKLYON.downloadMediaMessage = async (message) => {
         let mime = (message.msg || message).mimetype || ''
         let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0]
         const stream = await downloadContentFromMessage(message, messageType)
@@ -584,8 +485,8 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.sendMedia = async (jid, path, fileName = '', caption = '', quoted = '', options = {}) => {
-        let types = await KUMUTHU.getFile(path, true)
+    DARKLYON.sendMedia = async (jid, path, fileName = '', caption = '', quoted = '', options = {}) => {
+        let types = await DARKLYON.getFile(path, true)
            let { mime, ext, res, data, filename } = types
            if (res && res.status !== 200 || file.length <= 65536) {
                try { throw { json: JSON.parse(file.toString()) } }
@@ -605,7 +506,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
        else if (/video/.test(mime)) type = 'video'
        else if (/audio/.test(mime)) type = 'audio'
        else type = 'document'
-       await KUMUTHU.sendMessage(jid, { [type]: { url: pathFile }, caption, mimetype, fileName, ...options }, { quoted, ...options })
+       await DARKLYON.sendMessage(jid, { [type]: { url: pathFile }, caption, mimetype, fileName, ...options }, { quoted, ...options })
        return fs.promises.unlink(pathFile)
        }
 
@@ -617,7 +518,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} options 
      * @returns 
      */
-    KUMUTHU.copyNForward = async (jid, message, forceForward = false, options = {}) => {
+    DARKLYON.copyNForward = async (jid, message, forceForward = false, options = {}) => {
         let vtype
 		if (options.readViewOnce) {
 			message.message = message.message && message.message.ephemeralMessage && message.message.ephemeralMessage.message ? message.message.ephemeralMessage.message : (message.message || undefined)
@@ -648,11 +549,11 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
                 }
             } : {})
         } : {})
-        await KUMUTHU.relayMessage(jid, waMessage.message, { messageId:  waMessage.key.id })
+        await DARKLYON.relayMessage(jid, waMessage.message, { messageId:  waMessage.key.id })
         return waMessage
     }
 
-    KUMUTHU.cMod = (jid, copy, text = '', sender = KUMUTHU.user.id, options = {}) => {
+    DARKLYON.cMod = (jid, copy, text = '', sender = DARKLYON.user.id, options = {}) => {
         //let copy = message.toJSON()
 		let mtype = Object.keys(copy.message)[0]
 		let isEphemeral = mtype === 'ephemeralMessage'
@@ -673,15 +574,15 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
 		if (copy.key.remoteJid.includes('@s.whatsapp.net')) sender = sender || copy.key.remoteJid
 		else if (copy.key.remoteJid.includes('@broadcast')) sender = sender || copy.key.remoteJid
 		copy.key.remoteJid = jid
-		copy.key.fromMe = sender === KUMUTHU.user.id
+		copy.key.fromMe = sender === DARKLYON.user.id
 
         return proto.WebMessageInfo.fromObject(copy)
     }
 
 
-//send 5 button image by xeon
-    KUMUTHU.send5ButImg = async (jid , text = '' , footer = '', img, but = [], thumb, options = {}) =>{
-        let message = await prepareWAMessageMedia({ image: img, jpegThumbnail:thumb }, { upload: KUMUTHU.waUploadToServer })
+//send 5 button image by LYON
+    DARKLYON.send5ButImg = async (jid , text = '' , footer = '', img, but = [], thumb, options = {}) =>{
+        let message = await prepareWAMessageMedia({ image: img, jpegThumbnail:thumb }, { upload: DARKLYON.waUploadToServer })
         var template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
         templateMessage: {
         hydratedTemplate: {
@@ -692,13 +593,13 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
             }
             }
             }), options)
-            KUMUTHU.relayMessage(jid, template.message, { messageId: template.key.id })
+            DARKLYON.relayMessage(jid, template.message, { messageId: template.key.id })
     }
 
 
     //send5butvid by xeon
-        KUMUTHU.send5ButVid = async (jid , text = '' , footer = '', vid, but = [], options = {}) =>{
-        let message = await prepareWAMessageMedia({ video: vid }, { upload: KUMUTHU.waUploadToServer })
+        DARKLYON.send5ButVid = async (jid , text = '' , footer = '', vid, but = [], options = {}) =>{
+        let message = await prepareWAMessageMedia({ video: vid }, { upload: DARKLYON.waUploadToServer })
         var template = generateWAMessageFromContent(jid, proto.Message.fromObject({
         templateMessage: {
         hydratedTemplate: {
@@ -709,24 +610,24 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
             }
             }
             }), options)
-            KUMUTHU.relayMessage(jid, template.message, { messageId: template.key.id })
+            DARKLYON.relayMessage(jid, template.message, { messageId: template.key.id })
     }
     
     
     //send5butmsg by xeon
-            KUMUTHU.send5ButMsg = (jid, text = '' , footer = '', but = []) =>{
+            DARKLYON.send5ButMsg = (jid, text = '' , footer = '', but = []) =>{
         let templateButtons = but
         var templateMessage = {
         text: text,
         footer: footer,
         templateButtons: templateButtons
         }
-        KUMUTHU.sendMessage(jid, templateMessage)
+        DARKLYON.sendMessage(jid, templateMessage)
         }
 
 
 //sendlistmsg by xeon
-        KUMUTHU.sendListMsg = (jid, text = '', footer = '', title = '' , butText = '', sects = [], quoted) => {
+        DARKLYON.sendListMsg = (jid, text = '', footer = '', title = '' , butText = '', sects = [], quoted) => {
         let sections = sects
         var listMes = {
         text: text,
@@ -735,13 +636,13 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
         buttonText: butText,
         sections
         }
-        KUMUTHU.sendMessage(jid, listMes, { quoted: quoted })
+        DARKLYON.sendMessage(jid, listMes, { quoted: quoted })
         }
 
 
     //send5butgif by xeon
-        KUMUTHU.send5ButGif = async (jid , text = '' , footer = '', gif, but = [], options = {}) =>{
-        let message = await prepareWAMessageMedia({ video: gif, gifPlayback: true }, { upload: KUMUTHU.waUploadToServer })
+        DARKLYON.send5ButGif = async (jid , text = '' , footer = '', gif, but = [], options = {}) =>{
+        let message = await prepareWAMessageMedia({ video: gif, gifPlayback: true }, { upload: DARKLYON.waUploadToServer })
         var template = generateWAMessageFromContent(jid, proto.Message.fromObject({
         templateMessage: {
         hydratedTemplate: {
@@ -752,7 +653,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
             }
             }
             }), options)
-            KUMUTHU.relayMessage(jid, template.message, { messageId: template.key.id })
+            DARKLYON.relayMessage(jid, template.message, { messageId: template.key.id })
     }
 
 
@@ -761,7 +662,7 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
      * @param {*} path 
      * @returns 
      */
-    KUMUTHU.getFile = async (PATH, save) => {
+    DARKLYON.getFile = async (PATH, save) => {
         let res
         let data = Buffer.isBuffer(PATH) ? PATH : /^data:.*?\/.*?;base64,/i.test(PATH) ? Buffer.from(PATH.split`,`[1], 'base64') : /^https?:\/\//.test(PATH) ? await (res = await getBuffer(PATH)) : fs.existsSync(PATH) ? (filename = PATH, fs.readFileSync(PATH)) : typeof PATH === 'string' ? PATH : Buffer.alloc(0)
         //if (!Buffer.isBuffer(data)) throw new TypeError('Result is not a buffer')
@@ -781,10 +682,10 @@ KUMUTHU.sendMessage(anu.id, buttonMessage)
 
     }
 
-    return KUMUTHU
+    return DARKLYON
 }
 
-startKUMUTHU()
+startDARKLYON()
 
 
 let file = require.resolve(__filename)
